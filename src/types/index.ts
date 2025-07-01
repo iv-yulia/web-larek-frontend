@@ -8,26 +8,25 @@ export interface IProduct {
 }
 
 export interface IProductListResult {
-  total: number;
-  items: IProduct[];
+	total: number;
+	items: IProduct[];
 }
 
-
 export interface IOrderForm {
-  payment: PaymentMethod;
-  address: string;
-  email: string;
-  phone: string;
+	payment: PaymentMethod;
+	address: string;
+	email: string;
+	phone: string;
 }
 
 export interface IOrder extends IOrderForm {
-  items: string[];
-  total: number;
+	items: string[];
+	total: number;
 }
 
 export interface IOrderResult {
-  id: string;
-  total: number;
+	id: string;
+	total: number;
 }
 
 export type BasketItem = Pick<IProduct, 'id' | 'title' | 'price'>;
@@ -43,4 +42,4 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 //   basket: string[];
 //   preview: string | null;
 //   order: IOrder | null;
-// }git 
+// }git

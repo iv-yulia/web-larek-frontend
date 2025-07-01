@@ -146,7 +146,7 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 Конструктор класса принимает инстант брокера событий\
 Поля:
 - products: IProduct[] - коллекция доступных товаров
-- basket: IBasket[] | null - коллекция товаров в корзине
+- basket: BasketItem[] | null - коллекция товаров в корзине
 - preview: string | null - id карточки, выбранной для просмотра в модальной окне
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных
 
