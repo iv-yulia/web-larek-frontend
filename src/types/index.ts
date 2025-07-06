@@ -42,4 +42,4 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 //   basket: string[];
 //   preview: string | null;
 //   order: IOrder | null;
-// }git
+// }
