@@ -7,21 +7,16 @@ export interface IProduct {
 	price: number | null;
 }
 
-export interface IProductListResult {
+export interface IOrderProduct {
 	total: number;
-	items: IProduct[];
+	items: string[];
 }
 
-export interface IOrderForm {
+export interface IOrder {
 	payment: PaymentMethod;
 	address: string;
 	email: string;
 	phone: string;
-}
-
-export interface IOrder extends IOrderForm {
-	items: string[];
-	total: number;
 }
 
 export interface IOrderResult {
@@ -33,13 +28,10 @@ export type BasketItem = Pick<IProduct, 'id' | 'title' | 'price'>;
 
 export type CatalogItem = Omit<IProduct, 'description'>;
 
-export type PaymentMethod = 'online' | 'cash';
+export type PaymentMethod = 'card' | 'cash' | '';
 
 export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
-// export interface IAppState {
-//   catalog: IProduct[];
-//   basket: string[];
-//   preview: string | null;
-//   order: IOrder | null;
-// }
+export type InputValues = Omit<IOrder, 'payment'>;
+
+export type PaymentValues = Pick<IOrder, 'payment'>;

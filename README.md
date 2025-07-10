@@ -173,7 +173,6 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 
 - products: IProduct[] - коллекция доступных товаров
 - basket: BasketItem[] - коллекция товаров в корзине
-- preview: string | null - id карточки, выбранной для просмотра в модальной окне
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных
 
 Методы:
@@ -182,6 +181,7 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 - getProduct(id: string): IProduct - возвращает товар по id
 - addProduct(item: IProduct): void - добавляет товар в корзину
 - removeProduct(id: string): void - удаляет товар из корзины
+- checkBasket(id: string): void -проверяет наличие товара в корзине
 - clear(): void - чистить корзину после успешного оформления заказа
 - а так-же сеттеры и геттеры для сохранения и получения данных из полей класса
 
@@ -196,12 +196,10 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 
 Методы:
 
-- setPayment(PaymentMethod): void - устанавливает способ оплаты
-- setAddress(id: string): void - устанавливает адрес
-- setEmail(id: string): void - устанавливает email
-- setPhone(id: string): void - устанавливает телефон
+- setOrderPayment(field: string, value: PaymentMethod) - устанавливает значение выбора способа оплаты
 - setOrderField(field: keyof IOrderForm, value: string) - обновляет поле формы
 - validateOrder(): boolean - валидация формы
+- clearOrder(): void - отчищает фому после отправки на сервер
 - а так-же сеттеры и геттеры для сохранения и получения данных из полей класса
 
 ### Классы представления (View)
@@ -216,6 +214,7 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 - catalog: HTMLElement - контейнер разметки для отрисовки карточек
 - basket: HTMLButtonElement - элемент корзины (кнопка)
 - counter: HTMLElement - счетчик корзины
+- locked: boolean - блокировка прокрутки страницы при открытом модальном окне
 
 Сеттеры задают значения полям класса
 
@@ -230,6 +229,7 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 - description?: HTMLElement;
 - price: HTMLSpanElement;
 - id: string;
+- index: HTMLSpanElement;
 
 Сеттеры задают значения полям класса
 
@@ -238,8 +238,8 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 Наследуется от класса Component и отвечает за отображение списка товаров добавленных в корзину, итоговой суммы выбранных товаров. Конструктор принимает два параметра, container в котором будет размещены элементы корзины, и экземпляр класса `EventEmitter` для инициации событий\
 Поля:
 
-- productList: HTMLElement — контейнер списка товаров
-- totalPrice: HTMLElement — сумма всех товаров
+- basket: HTMLElement — контейнер списка товаров
+- total: HTMLElement — сумма всех товаров
 - button: HTMLButtonElement — кнопка оформления заказа
 
 а также устанавливает слушатель на кнопку оформления заказа
@@ -255,7 +255,7 @@ type FormErrors = Partial<Record<keyof IOrder, string>>
 
 #### Класс Form
 
-Универсальный класс формы наследуется от класса Component. Предназначен для управления состоянием формы. Предназначен для управления состоянием формы, обработкой вводимых значений, валидацией и отправкой данных на сервер. Конструктор принимает container - корневой элемент формы, и экземпляр класса `EventEmitter` для инициации событий\
+Универсальный класс формы наследуется от класса Component. Класс является родительским для классов представления Order и OrderContacts. Предназначен для управления состоянием формы, обработкой вводимых значений, валидацией и отправкой данных на сервер.  Конструктор принимает container - корневой элемент формы, и экземпляр класса `EventEmitter` для инициации событий\
 Поля:
 
 - submitButton: HTMLButtonElement — кнопка оформления заказа
