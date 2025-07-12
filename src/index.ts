@@ -5,7 +5,6 @@ import { API_URL, CDN_URL } from './utils/constants';
 import './scss/styles.scss';
 import { InputValues, IProduct, PaymentMethod } from './types';
 import { Page } from './components/Page';
-import { Form } from './components/common/Form';
 import { ProductData } from './components/ProductData';
 import {
 	ProductPreview,
@@ -41,7 +40,7 @@ const order = new Order(cloneTemplate(orderTemplate), events);
 const contacts = new OrderContacts(cloneTemplate(contactsTemplate), events);
 const success = new Success(cloneTemplate(successTemplate), events);
 
-events.on('catalog:change', () => {
+events.on('products:loaded', () => {
 	page.catalog = productData.products.map((item) => {
 		const card = new ProductContainer(
 			cloneTemplate(productCatalogTemplate),
@@ -63,7 +62,6 @@ events.on('basket:change', () => {
 	modal.render({
 		content: basket.render(),
 	});
-	basket.toggleButton(productData.basket.length);
 	const total = productData.getTotalPrice();
 	basket.total = total;
 });
@@ -191,6 +189,5 @@ api
 	.getProducts()
 	.then((data) => {
 		productData.products = data;
-		events.emit('products:loaded');
 	})
 	.catch((err) => console.log(err));

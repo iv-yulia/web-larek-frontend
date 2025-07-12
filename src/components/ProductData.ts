@@ -22,7 +22,7 @@ export class ProductData implements IProductData {
 
 	set products(products: IProduct[]) {
 		this._products = products;
-		this.events.emit('catalog:change');
+		this.events.emit('products:loaded');
 	}
 
 	get products() {
